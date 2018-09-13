@@ -1,0 +1,224 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailDBManager"
+        xmlns:SqlServer="clr-namespace:System.Data.Entity.SqlServer;assembly=EntityFramework.SqlServer" x:Class="WpfMailDBManager.MainWindow"
+        mc:Ignorable="d"
+        Title="MailDB Manager" MinHeight="740" Height="740" Width="1240" MinWidth="600" WindowStartupLocation="CenterScreen">
+    <Grid Loaded="Grid_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="405" Height="1*"/>
+            <RowDefinition MinHeight="305" Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Grid.ColumnSpan="2" Height="18" VerticalAlignment="Top" Width="1232">
+            <MenuItem Header="Меню">
+                <MenuItem Header="Изменить пользователя" Click="MenuItem_ChangeUser_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Выход" Click="MenuItem_Exit_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Действия">
+                <MenuItem Header="Обновить все таблицы" Click="MenuItem_RefreshAll_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Заполнить вспомогательные таблицы" Click="MenuItem_InsertTestSecondaryData_Click"></MenuItem>
+                <MenuItem Header="Добавить тестовые значения" Click="MenuItem_InsertTestPrimaryData_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Главная таблица">
+                    <MenuItem Header="Добавить запись" Click="MenuItem_InsertToMainTable_Click"></MenuItem>
+                    <MenuItem Header="Редактировать запись" Click="MenuItem_UpdateInMainTable_Click"></MenuItem>
+                    <MenuItem Header="Удалить запись" Click="MenuItem_DeleteInMainTable_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Таблица подписок">
+                    <MenuItem Header="Добавить запись" Click="MenuItem_InsertToSubscription_Click"></MenuItem>
+                    <MenuItem Header="Редактировать запись" Click="MenuItem_UpdateInSubscription_Click"></MenuItem>
+                    <MenuItem Header="Удалить запись"  Click="MenuItem_DeleteInSubscription_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Таблица подписчиков">
+                    <MenuItem Header="Добавить запись" Click="MenuItem_InsertToSubsciber_Click"></MenuItem>
+                    <MenuItem Header="Редактировать запись" Click="MenuItem_UpdateInSubsciber_Click"></MenuItem>
+                    <MenuItem Header="Удалить запись" Click="MenuItem_DeleteInSubsciber_Click"></MenuItem>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Справка" Click="MenuItem_Click"></MenuItem>
+        </Menu>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <local:MyDataGrid x:Name="dataGrid_MainTable" Margin="10,25,261,0" RenderTransformOrigin="0.5,0.5" 
+                  Cursor="" IsEnabled="True" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
+                  IsReadOnly="True" MouseDoubleClick="dataGrid_MainTable_MouseDoubleClick" CanUserSortColumns="False" MouseColumnHeaderClick="dataGrid_MainTable_MouseColumnHeaderClick">
+                <local:MyDataGrid.Columns>
+
+                    <DataGridTextColumn MinWidth="35" Header="Индекс" Binding="{Binding mail_Id}"  CanUserSort="True" />
+                    <DataGridTextColumn MinWidth="65" Header="Операция" Binding="{Binding id_Operation}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="30" Header="Тип" Binding="{Binding id_Mailing}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="35" Header="Код подписки" Binding="{Binding id_Subscription}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="115" Header="Адрес отправителя" Binding="{Binding sender_Address}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="110" Header="Адрес получателя" Binding="{Binding recipient_Address}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="35" Header="Вес пакета (кг)" Binding="{Binding weight_Package}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="80" Header="Дата операции" Binding="{Binding date_Operation, StringFormat={}\{0:dd.MM.yyyy HH:mm:ss\}}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="70" Width="*" Header="Цена (грн)" Binding="{Binding price}" CanUserSort="True"/>
+                </local:MyDataGrid.Columns>
+            </local:MyDataGrid>
+
+            <GroupBox HorizontalAlignment="Right" x:Name="groupBox" Header="Действия над Главной таблицей" Margin="0,25,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.465,0" Height="80" Width="246" FlowDirection="LeftToRight">
+                <Grid>
+                    <Button x:Name="button_RefreshMainTable" Content="Обновить" Margin="10,10,124,0" VerticalAlignment="Top" Click="button_Click_RefreshMainTable"/>
+                    <Button x:Name="button_InsertToMainTable" HorizontalAlignment="Center" Content="Добавить запись" Margin="124,10,10,0" VerticalAlignment="Top" Width="100" Click="button_InsertToMainTable_Click"/>
+                    <Button x:Name="button_UpdateInMainTable" HorizontalAlignment="Center" Content="Редактировать" Margin="10,35,124,0" VerticalAlignment="Top" Width="100" Click="button_UpdateInMainTable_Click"/>
+                    <Button x:Name="button_DeleteInMainTable" HorizontalAlignment="Center" Content="Удалить запись" Margin="124,35,10,0" VerticalAlignment="Top" Width="100" Click="button_DeleteInMainTable_Click"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox x:Name="groupBox_SearchInMainTable" Header="Поиск" Margin="0,110,10,0" VerticalAlignment="Top" Height="295" HorizontalAlignment="Right" Width="246">
+                <Grid>
+                    <TextBlock x:Name="textBlock_Search_ID" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="ID" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_Search_MinID" HorizontalAlignment="Left" Height="20" Margin="37,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidIntKeyInTbox"/>
+                    <TextBlock x:Name="textBlock_Search_dashID" HorizontalAlignment="Left" Margin="127,2,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20" />
+                    <TextBox x:Name="textBox_Search_MaxID" HorizontalAlignment="Left" Height="20" Margin="144,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidIntKeyInTbox"/>
+
+                    <TextBlock x:Name="textBlock_Search_IDOperation" HorizontalAlignment="Left" Margin="10,37,0,0" TextWrapping="Wrap" Text="Операция" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="comboBox_Search_IDOperation" HorizontalAlignment="Left" Margin="69,34,0,0" VerticalAlignment="Top" Width="155"/>
+
+                    <TextBlock x:Name="textBlock_Search_IDMailing" HorizontalAlignment="Left" Margin="10,64,0,0" TextWrapping="Wrap" Text="Тип" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="comboBox_Search_IDMailing" HorizontalAlignment="Left" Margin="69,61,0,0" VerticalAlignment="Top" Width="155"/>
+
+                    <TextBlock x:Name="textBlock_Search_IDSubscription" HorizontalAlignment="Left" Margin="10,91,0,0" TextWrapping="Wrap" Text="Подписка" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="comboBox_Search_IDSubscription" HorizontalAlignment="Left" Margin="69,88,0,0" VerticalAlignment="Top" IsEditable="False" Height="22" Width="155" StaysOpenOnEdit="True"/>
+
+                    <TextBlock x:Name="textBlock_Search_Sender" HorizontalAlignment="Left" Margin="10,115,0,0" TextWrapping="Wrap" Text="Отправитель " VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_Search_Sender" HorizontalAlignment="Left" Height="20" Margin="84,115,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="141"/>
+
+                    <TextBlock x:Name="textBlock_Search_Recipient" HorizontalAlignment="Left" Margin="10,140,0,0" TextWrapping="Wrap" Text="Получатель" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_Search_Recipient" HorizontalAlignment="Left" Height="20" Margin="84,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="141"/>
+
+                    <TextBlock x:Name="textBlock_Search_Weight" HorizontalAlignment="Left" Margin="9,166,0,0" TextWrapping="Wrap" Text="Вес" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_Search_MinWeight" HorizontalAlignment="Left" Height="20" Margin="37,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidFloatKeyInTbox"/>
+                    <TextBlock x:Name="textBlock_Search_dashWeight" HorizontalAlignment="Left" Margin="127,158,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBox x:Name="textBox_Search_MaxWeight" HorizontalAlignment="Left" Height="20" Margin="145,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidFloatKeyInTbox"/>
+
+                    <TextBlock x:Name="textBlock_Search_dashDate" HorizontalAlignment="Left" Margin="127,187,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <DatePicker x:Name="DatePicker_Search_MinDate" HorizontalAlignment="Left" Margin="37,190,0,0" VerticalAlignment="Top" Width="80" FontSize="8" />
+                    <TextBlock x:Name="textBlock_Search_Date" HorizontalAlignment="Left" Margin="9,193,0,0" TextWrapping="Wrap" Text="Дата" VerticalAlignment="Top"/>
+                    <DatePicker x:Name="DatePicker_Search_MaxDate" HorizontalAlignment="Left" Margin="144,190,0,0" VerticalAlignment="Top" Width="80" FontSize="8"/>
+
+                    <TextBlock x:Name="textBlock_Search_Price" HorizontalAlignment="Left" Margin="9,222,0,0" TextWrapping="Wrap" Text="Цена" VerticalAlignment="Top" FontSize="11"/>
+                    <TextBox x:Name="textBox_Search_MinPrice" HorizontalAlignment="Left" Height="20" Margin="37,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidFloatKeyInTbox"/>
+                    <TextBlock x:Name="textBlock_Search_dashPrice" HorizontalAlignment="Left" Margin="127,212,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBox x:Name="textBox_Search_MaxPrice" HorizontalAlignment="Left" Height="20" Margin="144,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidFloatKeyInTbox"/>
+
+                    <Button x:Name="button_Search" Content="Поиск" Margin="149,244,10,0" VerticalAlignment="Top" Click="button_Search_Click"/>
+                    <Button x:Name="button_Clean_Search" Content="Очистить" Margin="37,244,122,0" VerticalAlignment="Top" Click="button_Clean_Main_Search_Click"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+
+            <local:MyDataGrid x:Name="dataGrid_Subscriber" RenderTransformOrigin="0.5,0.5" 
+            Cursor="" IsEnabled="True" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
+            IsReadOnly="True" MouseDoubleClick="dataGrid_Subscriber_MouseDoubleClick" MouseColumnHeaderClick="dataGrid_Subscriber_MouseColumnHeaderClick" CanUserSortColumns="False" Margin="10,10,251,12">
+                <local:MyDataGrid.Columns>
+
+                    <DataGridTextColumn MinWidth="35" Header="Индекс" Binding="{Binding subscriber_Id}"  CanUserSort="True" />
+                    <DataGridTextColumn MinWidth="65" Header="Фамилия" Binding="{Binding last_Name}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="30" Header="Имя" Binding="{Binding first_Name}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="35" Header="Отчество" Binding="{Binding middle_Name}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="115" Header="Адрес" Binding="{Binding sub_Address}" CanUserSort="True"/>
+
+                </local:MyDataGrid.Columns>
+            </local:MyDataGrid>
+
+            <GroupBox HorizontalAlignment="Right" x:Name="groupBox_Subscriber" Header="Действия над таблицей подписчиков" Margin="0,10,5,0" VerticalAlignment="Top" RenderTransformOrigin="0.465,0" Height="80" Width="246" FlowDirection="LeftToRight">
+                <Grid>
+                    <Button x:Name="button_RefreshSubscribeTable" Content="Обновить" Margin="10,10,124,0" VerticalAlignment="Top" Click="button_Click_RefreshSubscriberTable"/>
+                    <Button x:Name="button_InsertToSubscribeTable" HorizontalAlignment="Center" Content="Добавить запись" Margin="124,10,10,0" VerticalAlignment="Top" Width="100" Click="button_InsertToSubscriber_Click"/>
+                    <Button x:Name="button_UpdateInSubscribeTable" HorizontalAlignment="Center" Content="Редактировать" Margin="10,35,124,0" VerticalAlignment="Top" Width="100" Click="button_UpdateInSubscriber_Click"/>
+                    <Button x:Name="button_DeleteInSubscribeTable" HorizontalAlignment="Center" Content="Удалить запись" Margin="124,35,10,0" VerticalAlignment="Top" Width="100" Click="button_DeleteInSubscriber_Click"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox x:Name="groupBox_SearchInSubscribeTable" Header="Поиск" Margin="0,95,5,0" HorizontalAlignment="Right" Width="246" Height="200" VerticalAlignment="Top">
+                <Grid>
+                    <TextBlock x:Name="textBlock_SearchSubscriber_ID" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="ID" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_SearchSubscriber_MinID" HorizontalAlignment="Left" Height="20" Margin="37,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidIntKeyInTbox"/>
+                    <TextBlock x:Name="textBlock_SearchSubscriber_dashID" HorizontalAlignment="Left" Margin="127,2,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBox x:Name="textBox_SearchSubscriber_MaxID" HorizontalAlignment="Left" Height="20" Margin="144,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidIntKeyInTbox"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscriber_Sender" HorizontalAlignment="Left" Margin="10,35,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_SearchSubscriber_FirstName" HorizontalAlignment="Left" Height="20" Margin="65,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscriber_Recipient" HorizontalAlignment="Left" Margin="10,61,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_SearchSubscriber_LastName" HorizontalAlignment="Left" Height="20" Margin="65,59,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscriber_Sender_Copy" HorizontalAlignment="Left" Margin="9,86,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_SearchSubscriber_MiddleName" HorizontalAlignment="Left" Height="20" Margin="65,84,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscriber_Recipient_Copy" HorizontalAlignment="Left" Margin="10,110,0,0" TextWrapping="Wrap" Text="Адрес" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_SearchSubscriber_Address" HorizontalAlignment="Left" Height="20" Margin="65,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
+
+                    <Button x:Name="button_SearchSubscriber" Content="Поиск" Margin="149,134,10,0" VerticalAlignment="Top" Click="button_SearchSubscriber_Click"/>
+                    <Button x:Name="button_SearchSubscriber_Clean" Content="Очистить" Margin="37,134,122,0" VerticalAlignment="Top" Click="button_SearchSubscriber_Clean_Click"/>
+
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+
+            <local:MyDataGrid x:Name="dataGrid_Subscription" Margin="10,10,261,14" RenderTransformOrigin="0.5,0.5" 
+            Cursor="" IsEnabled="True" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" 
+            IsReadOnly="True" MouseDoubleClick="dataGrid_Subscription_MouseDoubleClick" CanUserSortColumns="False" MouseColumnHeaderClick="dataGrid_Subscription_MouseColumnHeaderClick" >
+                <local:MyDataGrid.Columns >
+
+                    <DataGridTextColumn MinWidth="35" Header="Индекс" Binding="{Binding subscription_Id}"  CanUserSort="True" />
+                    <DataGridTextColumn MinWidth="35" Header="Код подписчика" Binding="{Binding id_Subscriber}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="30" Header="Издание" Binding="{Binding id_Edition}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="35" Header="Дата создания" Binding="{Binding date_Сreation, StringFormat ={}\{0:dd.MM.yyyy HH:mm:ss\}}" CanUserSort="True"/>
+                    <DataGridTextColumn MinWidth="115" Header="Дата завершения" Binding="{Binding date_Expiration, StringFormat={}\{0:dd.MM.yyyy HH:mm:ss\}}" CanUserSort="True"/>
+
+                </local:MyDataGrid.Columns>
+            </local:MyDataGrid>
+            <GroupBox HorizontalAlignment="Right" x:Name="groupBox_Subscriber_Copy" Header="Действия над таблицей подписок" Margin="0,10,10,0" RenderTransformOrigin="0.465,0" Width="246" FlowDirection="LeftToRight" Height="80" VerticalAlignment="Top">
+                <Grid>
+                    <Button x:Name="button_RefreshSubscriptionTable" Content="Обновить" Margin="10,10,124,0" VerticalAlignment="Top" Click="button_Click_RefresSubscriptionTable"/>
+                    <Button x:Name="button_InsertToSubscriptionTable" HorizontalAlignment="Center" Content="Добавить запись" Margin="124,10,10,0" VerticalAlignment="Top" Width="100" Click="button_InsertToSubscription_Click"/>
+                    <Button x:Name="button_UpdateInSubscriptionTable" HorizontalAlignment="Center" Content="Редактировать" Margin="10,35,124,0" VerticalAlignment="Top" Width="100" Click="button_UpdateInSubscription_Click"/>
+                    <Button x:Name="button_DeleteInSubscriptionTable" HorizontalAlignment="Center" Content="Удалить запись" Margin="124,35,10,0" VerticalAlignment="Top" Width="100" Click="button_DeleteInSubscription_Click"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="groupBox_SearchInSubscribeTable_Copy" Header="Поиск" Margin="0,95,10,0" HorizontalAlignment="Right" Width="246" Height="198" VerticalAlignment="Top">
+                <Grid Margin="0,0,0,5">
+                    <TextBlock x:Name="textBlock_SearchSubscription_ID" HorizontalAlignment="Left" Margin="8,10,0,0" TextWrapping="Wrap" Text="ID" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox_SearchSubscription_MinID" HorizontalAlignment="Left" Height="20" Margin="37,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidIntKeyInTbox"/>
+                    <TextBlock x:Name="textBlock_SearchSubscription_dashID" HorizontalAlignment="Left" Margin="127,2,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBox x:Name="textBox_SearchSubscription_MaxID" HorizontalAlignment="Left" Height="20" Margin="144,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="80" KeyDown="ItValidIntKeyInTbox"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscription_IDSubscriber" HorizontalAlignment="Left" Margin="5,37,0,0" TextWrapping="Wrap" Text="Подписчик" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="comboBox_SearchSubscription_IDSubscriber" HorizontalAlignment="Left" Margin="76,34,0,0" VerticalAlignment="Top" Width="148"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscription_IDEdition" HorizontalAlignment="Left" Margin="5,64,0,0" TextWrapping="Wrap" Text="Издание" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="comboBox_SearchSubscription_IDEdition" HorizontalAlignment="Left" Margin="76,61,0,0" VerticalAlignment="Top" Width="148"/>
+
+                    <TextBlock x:Name="textBlock__SearchSubscription_Date" HorizontalAlignment="Left" Margin="5,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Начало" />
+                    <DatePicker x:Name="DatePicker_SearchSubscription_MinDateCreate" HorizontalAlignment="Left" Margin="46,88,0,0" VerticalAlignment="Top" Width="80" FontSize="8" RenderTransformOrigin="0.654,0.514" />
+                    <TextBlock x:Name="textBlock_SearchSubscription_dashDateCreate" HorizontalAlignment="Left" Margin="131,85,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <DatePicker x:Name="DatePicker_SearchSubscription_MaxDateCreate" HorizontalAlignment="Left" Margin="144,88,0,0" VerticalAlignment="Top" Width="80" FontSize="8"/>
+
+                    <TextBlock x:Name="textBlock_SearchSubscription_DateExpiration" HorizontalAlignment="Left" Margin="5,121,0,0" TextWrapping="Wrap" Text="Конец" VerticalAlignment="Top"/>
+                    <DatePicker x:Name="DatePicker_SearchSubscription_MinDateExpiration" HorizontalAlignment="Left" Margin="46,118,0,0" VerticalAlignment="Top" Width="80" FontSize="8" />
+                    <TextBlock x:Name="textBlock_SearchSubscription_dashDateExpiration" HorizontalAlignment="Left" Margin="131,115,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" FontSize="20"/>
+                    <DatePicker x:Name="DatePicker_SearchSubscription_MaxDateExpiration" HorizontalAlignment="Left" Margin="144,118,0,0" VerticalAlignment="Top" Width="80" FontSize="8"/>
+
+                    <Button x:Name="button_SearchSubscription" Content="Поиск" Margin="149,147,10,0" VerticalAlignment="Top" Click="button_SearchSubscription_Click"/>
+                    <Button x:Name="button_SearchSubscription_Clean" Content="Очистить" Margin="37,147,122,0" VerticalAlignment="Top" Click="button_Clean_SearchSubscription_Click"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+
+</Window>

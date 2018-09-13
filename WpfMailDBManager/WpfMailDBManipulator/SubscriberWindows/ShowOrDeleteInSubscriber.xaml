@@ -1,0 +1,36 @@
+﻿<Window x:Class="WpfMailDBManager.SubscriberWindows.ShowOrDeleteInSubscriber"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailDBManager.SubscriberWindows"
+        mc:Ignorable="d"
+        Title="ShowOrDeleteInSubscriber" Height="210" Width="450" MinHeight="210" MinWidth="450">
+    <Grid>
+        <Grid HorizontalAlignment="Left" Margin="5,14,0,36" Width="119">
+            <TextBlock x:Name="SODSubscriber_TBl_lable_subscriber_Id"  Grid.Row="0" HorizontalAlignment="Left" Margin="10,1,0,0" TextWrapping="Wrap" Text="Индекс" VerticalAlignment="Top"/>
+            <TextBlock x:Name="SODSubscriber_TBl_lable_last_Name"  Grid.Row="0" HorizontalAlignment="Left" Margin="10,25,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top"/>
+            <TextBlock x:Name="SODSubscriber_TBl_lable_first_Name" HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Имя" Height="16" VerticalAlignment="Top"/>
+            <TextBlock x:Name="SODSubscriber_TBl_lable_middle_Name" HorizontalAlignment="Left" Margin="10,72,0,0" TextWrapping="Wrap" Text="Отчество" Height="16" VerticalAlignment="Top"/>
+            <TextBlock x:Name="SODSubscriber_TBl_lable_sub_Address" HorizontalAlignment="Left" Margin="10,93,0,0" TextWrapping="Wrap" Text="Адрес" Height="16" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Margin="124,10,10,36">
+            <TextBox x:Name="SODSubscriber_TBox_subscriber_Id" Grid.Row="0" Margin="10,5,10,0" TextWrapping="Wrap" Text="" Background="#EEEEEE" Height="18" VerticalAlignment="Top" IsReadOnly="True"/>
+            <TextBox x:Name="SODSubscriber_TBox_last_Name" Grid.Row="0" Margin="10,28,10,0" TextWrapping="Wrap" Text="" Background="#EEEEEE" Height="18" VerticalAlignment="Top" IsReadOnly="True"/>
+            <TextBox x:Name="SODSubscriber_TBox_first_Name" Margin="10,51,10,0" TextWrapping="Wrap" Text="" Background="#EEEEEE" Height="18" VerticalAlignment="Top" IsReadOnly="True"/>
+            <TextBox x:Name="SODSubscriber_TBox_middle_Name" Margin="10,74,10,0" TextWrapping="Wrap" Text="" Background="#EEEEEE" IsReadOnly="True" Height="18" VerticalAlignment="Top"/>
+            <TextBox x:Name="SODSubscriber_TBox_sub_Address" Margin="10,97,10,8" TextWrapping="Wrap" Text="" Background="#EEEEEE" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        </Grid>
+
+        <Button x:Name="SODSubscriber_button_OK" Click="SODSubscriber_button_Click_OK" IsEnabled="True" Visibility="Visible" IsDefault="True" IsCancel="True" Content="OK"  HorizontalAlignment="Center" Width="100" Height="20" VerticalAlignment="Bottom" Margin="171,0,171,10"/>
+        <Grid Margin="0,5,0,-5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="SODSubscriber_textBlock_OKInput" Grid.Column="1" Margin="15,0,0,35" IsEnabled="False" Visibility="Visible" TextWrapping="Wrap" Text="Для удаления записи нажмите 2 раза" Height="16" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left" Width="175"/>
+            <Button x:Name="SODSubscriber_button_OKInput" Grid.Column="1" MouseDoubleClick="SODSubscriber_button_OKDelete_Click" IsEnabled="False" Visibility="Visible" IsDefault="True" Content="OK" Margin="50,0,0,15" HorizontalAlignment="Left" Width="100" Height="20" VerticalAlignment="Bottom"/>
+            <Button x:Name="SODSubscriber_button_CancelInput" Grid.Column="0" Click="SODSubscriber_button_CancelDelete_Click" IsEnabled="False" Visibility="Visible" IsCancel="True" Content="Отмена" Margin="0,0,50,15" HorizontalAlignment="Right" Width="100" Height="20" VerticalAlignment="Bottom"/>
+        </Grid>
+    </Grid>
+</Window>

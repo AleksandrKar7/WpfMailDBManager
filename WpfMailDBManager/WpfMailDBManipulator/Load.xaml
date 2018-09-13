@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfMailDBManager.Load"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailDBManager"
+        mc:Ignorable="d"
+        Title="Загрузка" Height="120" Width="275" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Image x:Name="load" Source="Load.png"
+       Height="50" Width="50" Margin="10,10,0,20" HorizontalAlignment="Left">
+            <Image.RenderTransform>
+                <RotateTransform x:Name="rotate"
+                         CenterX="25"
+                         CenterY="25"/>
+            </Image.RenderTransform>
+        </Image>
+        <TextBlock x:Name="textBlock" Margin="0,22,10,0" TextWrapping="Wrap" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="170" RenderTransformOrigin="0.283,0.521"><Run Text="Идет загрузка данных! "/><LineBreak/><Run Text="Это займет несколько секунд"/><Run Text="!"/></TextBlock>
+    </Grid>
+</Window>

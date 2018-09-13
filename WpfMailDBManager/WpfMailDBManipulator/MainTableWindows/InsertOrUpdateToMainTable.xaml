@@ -1,0 +1,52 @@
+﻿<Window x:Class="WpfMailDBManager.MainTableWindows.InsertOrUpdateToMainTable"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailDBManager.MainTableWindows"
+        mc:Ignorable="d"
+        Title="Добавление записи в Главную таблицу" Height="350" Width="450" MinHeight="350" MinWidth="350">
+    <Grid>
+        <Grid HorizontalAlignment="Left" Margin="3,10,0,33" Width="119">
+            <TextBlock x:Name="IOUMainTable_TBl_lable_id_Operation" HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Операция" VerticalAlignment="Top"/>
+            <TextBlock x:Name="IOUMainTable_TBl_lable_id_Mailing" HorizontalAlignment="Left" Margin="13,39,0,0" TextWrapping="Wrap" Text="Тип" VerticalAlignment="Top"/>
+            <TextBlock x:Name="IOUMainTable_TBl_lable_id_Subscription" HorizontalAlignment="Left" Margin="10,66,0,0" TextWrapping="Wrap" Text="Инфо о подписке" VerticalAlignment="Top"/>
+            <Grid Margin="0,87,0,78">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="IOUMainTable_TBl_lable_sender_Address"  Grid.Row="0" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Адрес отправителя" VerticalAlignment="Top"/>
+                <TextBlock x:Name="IOUMainTable_TBl_lable_recipient_Address" Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Адрес получателя" Height="16" VerticalAlignment="Top"/>
+            </Grid>
+            <TextBlock x:Name="IOUMainTable_TBl_lable_weight_Package" HorizontalAlignment="Left" Margin="10,0,0,62" TextWrapping="Wrap" Text="Вес пакета (кг)" Height="16" VerticalAlignment="Bottom"/>
+            <TextBlock x:Name="IOUMainTable_TBl_lable_date_Operation" HorizontalAlignment="Left" Margin="10,0,0,41" TextWrapping="Wrap" Text="Дата операции" Height="16" VerticalAlignment="Bottom"/>
+            <TextBlock x:Name="IOUMainTable_TBl_lable_price" HorizontalAlignment="Left" Margin="10,0,0,20" TextWrapping="Wrap" Text="Цена (грн)" Height="16" VerticalAlignment="Bottom"/>
+        </Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="0" Margin="127,119,0,0" VerticalAlignment="Top" Width="7"/>
+        <Grid Margin="124,10,10,33">
+            <ComboBox  x:Name="IOUMainTable_ComboBox_id_Operation" Margin="10,10,10,0" Text="" VerticalAlignment="Top" />
+            <ComboBox x:Name="IOUMainTable_ComboBox_id_Mailing" Margin="10,37,10,0" Text="" VerticalAlignment="Top" />
+            <ComboBox x:Name="IOUMainTable_ComboBox_id_Subscription" Margin="10,64,10,0" Text="" Background="#EEEEEE" Height="22" IsEditable="False" VerticalAlignment="Top" StaysOpenOnEdit="True"/>
+            <Grid Margin="0,86,0,79">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="IOUMainTable_TBox_sender_Address" Grid.Row="0" Margin="10,5,10,3" TextWrapping="Wrap" Text="" Background="#EEEEEE" VerticalScrollBarVisibility="Auto"/>
+                <TextBox x:Name="IOUMainTable_TBox_recipient_Address" Grid.Row="1" Margin="10,3,10,4" TextWrapping="Wrap" Text="" Background="#EEEEEE" VerticalScrollBarVisibility="Auto"/>
+            </Grid>
+            <TextBox x:Name="IOUMainTable_TBox_weight_Package" KeyDown="ItFloatNumberInTbox" Margin="10,0,10,61" TextWrapping="Wrap" Text="" Background="#EEEEEE" Height="18" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="IOUMainTable_TBox_date_Operation" Margin="10,0,10,38" TextWrapping="Wrap" Text="" Background="#EEEEEE" IsEnabled="False" Height="18" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="IOUMainTable_TBox_price" KeyDown="ItFloatNumberInTbox" Margin="10,0,10,15" TextWrapping="Wrap" Text="" Background="#EEEEEE" Height="18" VerticalAlignment="Bottom"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="IOUMainTable_button_OK" Grid.Column="1" Content="OK" Margin="50,0,0,15" Click="button_Click_OK" HorizontalAlignment="Left" Width="100" Height="20" VerticalAlignment="Bottom"/>
+            <Button x:Name="IOUMainTable_button_Cancel" Grid.Column="0" Content="Отмена" Margin="0,0,50,15" Click="button_Click_Cancel" HorizontalAlignment="Right" Width="100" Height="20" VerticalAlignment="Bottom"/>
+        </Grid>
+    </Grid>
+</Window>

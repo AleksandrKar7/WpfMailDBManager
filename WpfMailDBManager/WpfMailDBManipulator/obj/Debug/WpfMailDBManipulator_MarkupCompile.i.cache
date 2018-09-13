@@ -1,0 +1,20 @@
+﻿WpfMailDBManipulator
+
+
+winexe
+C#
+.cs
+C:\Users\BigPC\Documents\Visual Studio 2015\Projects\WpfMailDBManager\WpfMailDBManipulator\obj\Debug\
+WpfMailDBManipulator
+none
+false
+DEBUG;TRACE
+C:\Users\BigPC\Documents\Visual Studio 2015\Projects\WpfMailDBManager\WpfMailDBManipulator\App.xaml
+91197225160
+
+301636890291
+18313926601
+Connect.xaml;Load.xaml;MainTableWindows\InsertOrUpdateToMainTable.xaml;MainTableWindows\ShowOrDeleteInMainTable.xaml;MainWindow.xaml;SubscriberWindows\InsertOrUpdateToSubscriber.xaml;SubscriberWindows\ShowOrDeleteInSubscriber.xaml;SubscriptionWindows\InsertOrUpdateToSubscription.xaml;SubscriptionWindows\ShowOrDeleteInSubscription.xaml;
+
+False
+
